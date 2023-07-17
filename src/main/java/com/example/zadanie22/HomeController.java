@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class HomeController {
-    private JavaMailSender mailSender;
+    private MailService mailService;
 
-    public HomeController(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
+    public HomeController(MailService mailService) {
+        this.mailService = mailService;
     }
 
     @GetMapping("/")
@@ -28,23 +28,12 @@ public class HomeController {
 
     @PostMapping("/send")
     public String send(Mail mail) {
-        String companyMail = "test321@poczta.onet.pl";
 
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(companyMail);
-            message.setTo(companyMail);
-            message.setSubject(mail.getName());
-            message.setText(mail.getContent());
-            mailSender.send(message);
+            mailService.sendMail(mail, mailService.getCompanyMail());
 
             if (mail.isConfirmation()) {
-                SimpleMailMessage message2 = new SimpleMailMessage();
-                message2.setFrom(companyMail);
-                message2.setTo(mail.getSenderEmail());
-                message.setSubject(mail.getName());
-                message.setText(mail.getContent());
-                mailSender.send(message);
+                mailService.sendMail(mail, mail.getSenderEmail());
             }
         } catch (Exception e) {
             e.printStackTrace();
