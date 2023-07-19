@@ -14,29 +14,17 @@ public class MailService {
         this.mailSender = mailSender;
     }
 
-    public JavaMailSender getMailSender() {
-        return mailSender;
-    }
-
-    public void setMailSender(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
-
     public String getCompanyMail() {
         return companyMail;
-    }
-
-    public void setCompanyMail(String companyMail) {
-        this.companyMail = companyMail;
     }
 
     public void sendMail(Mail mail, String receiver) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(companyMail);
-        message.setTo(receiver);
+        message.setTo(companyMail);
         message.setSubject(mail.getName());
         message.setText(mail.getContent());
-        message.setReplyTo(companyMail);
+        message.setReplyTo(receiver);
         mailSender.send(message);
     }
 }
