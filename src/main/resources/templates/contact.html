@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Formularz kontaktowy</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <h2>Formularz kontaktowy</h2>
+    <form th:action="@{/send}" method="post" th:object="${mail}">
+        <div>
+            <label for="name">Nazwa wysyłającego</label>
+            <input type="text" id="name" th:field="*{name}">
+        </div>
+        <div>
+            <label for="mail">Email wysyłającego</label>
+            <input type="email" id="mail" th:field="*{senderEmail}">
+        </div>
+        <div>
+            <label for="content">Treść</label>
+            <textarea id="content" cols="30" rows="15" th:field="*{content}"></textarea>
+        </div>
+        <div>
+            Czy chcesz otrzymać potwierdzenie wysłania?
+            <label>
+                <input type="radio" th:field="*{confirmation}" value="true" checked> Tak
+            </label>
+            <label>
+                <input type="radio" th:field="*{confirmation}" value="false"> Nie
+            </label>
+        </div>
+
+        <button type="submit">Wyślij</button>
+    </form>
+</main>
+</body>
+</html>
